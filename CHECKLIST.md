@@ -20,11 +20,11 @@ To make utterances inline commenting system work following is necessary
 * add **utterances.json** file to the repo with following content
 ```
   {
-    "origins": [ APP_ROOT ]
+    "origins": [ WEBAPP_HOSTNAME ]
   }
 ```
 
-`APP_ROOT` value comes from **step 4**.
+`WEBAPP_HOSTNAME` is the hostname of the site which hosts the client script.
 
 ## 2. Create personal access token
 Personal access token is necessary to configure utterances-oauth we application
