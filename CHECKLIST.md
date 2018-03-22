@@ -81,3 +81,5 @@ On the desired page place the script tag as follows
 ```
 
 `path-to` parameter should contain value of `WEBAPP_HOSTNAME` present in origins array from **step 1.**
+
+Issue comments toolbox will appear on the hosting page where script tag is
