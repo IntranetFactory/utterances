@@ -24,30 +24,32 @@ To make utterances inline commenting system work following is necessary
   }
 ```
 
-`WEBAPP_HOSTNAME` is the hostname of the site which hosts the client script. `WEBAPP_HOSTNAME` value comes from **step 6.**
+`WEBAPP_HOSTNAME` is the hostname of the site which hosts the client script.
+
+`WEBAPP_HOSTNAME` value comes from **step 6.**
 
 ## 2. Create personal access token
-Personal access token is necessary to configure utterances-oauth we application
+Personal access token is necessary to configure utterances-oauth application
 
 * Click your profile icon on github, choose **Settings**
 * On profile page choose **Developer settings**
-* Select Personal access tokens
-* Click Generate new token
+* Select **Personal access tokens**
+* Click **Generate new token**
 * Type appropriate name
 * Under **Select scopes** check **public_repo**
 
 ## 3. Create GitHub OAuth application
 * Click your profile icon on github, choose **Settings**
 * On profile page choose **Developer settings**
-* OAuth Apps is selected by default
+* **OAuth Apps** is selected by default
 * Create a new OAuth app
   * Type appropriate application name
   * Type homepage url
   * Type appropriate application description
   * Type authorization callback URL
-     * This callback URL should end with /authorized because utterances-oauth web application listens for callbacks on that URL
+     * This callback URL should end with `/authorized` because utterances-oauth web application listens for callbacks on that URL
   * Click Register Application
-  * Note the Client ID and Client Secret because they are necessary to configure utterances-oauth application
+  * Note the `Client ID` and `Client Secret` because they are necessary to configure utterances-oauth application
 
 ## 4. Configure and host an instance of utterances-oauth web application
 * install nodejs because utterances-oauth is a nodejs application
@@ -56,7 +58,7 @@ Personal access token is necessary to configure utterances-oauth we application
 * for `BOT_TOKEN` use personal access token created at **step 2**
 * for `CLIENT_ID` and `CLIENT_SECRET` use values created at **step 3**
 * value for `APP_ROOT` is used to fill the **authorization callback URL** in **step 3**
-* use npm run start-env to host an application instance
+* use `npm run start-env` to host an application instance
 
 ## 5. Configure and compile the utterances client script
 * Clone [https://github.com/IntranetFactory/utterances](https://github.com/IntranetFactory/utterances) into local folder
@@ -78,4 +80,4 @@ On the desired page place the script tag as follows
   </script>
 ```
 
-`path-to` parameter should contain value of WEBAPP_HOSTNAME present in origins array from **step 1.**
+`path-to` parameter should contain value of `WEBAPP_HOSTNAME` present in origins array from **step 1.**
