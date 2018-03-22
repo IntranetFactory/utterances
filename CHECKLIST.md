@@ -24,7 +24,7 @@ To make utterances inline commenting system work following is necessary
   }
 ```
 
-`WEBAPP_HOSTNAME` is the hostname of the site which hosts the client script.
+`WEBAPP_HOSTNAME` is the hostname of the site which hosts the client script. `WEBAPP_HOSTNAME` value comes from **step 6.**
 
 ## 2. Create personal access token
 Personal access token is necessary to configure utterances-oauth we application
@@ -78,3 +78,4 @@ On the desired page place the script tag as follows
   </script>
 ```
 
+`path-to` parameter should contain value of WEBAPP_HOSTNAME present in origins array from **step 1.**
