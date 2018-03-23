@@ -47,6 +47,7 @@ function bootstrap(config: RepoConfig, issues: Issue[] | null, user: User | null
     if (!tabname) return;
     loadIssuesByType(tabname).then(issues => {
       feedback.setIssues(issues);
+      publishResize();
     });
   }
 
