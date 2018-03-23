@@ -1,0 +1,52 @@
+@import "primer-base/index";
+@import "primer-navigation/index";
+@import "primer-box/index";
+@import "primer-layout/index";
+
+.feedback-container {
+  max-width: 760px;
+  margin: $spacer-3 $spacer-1;
+}
+
+.issues-box {
+  margin-top: -16px;
+}
+
+.issue-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.arrow {
+  display: block;
+  width: 16px;
+  cursor: pointer;
+}
+
+.arrow[hidden] {
+  display: none;
+}
+
+.issue-title {
+  display: block;
+  flex: 1;
+}
+
+.issue-title-text {
+  cursor: pointer;
+}
+
+.issue-comment-count {
+  display: block;
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (min-width: map-get($breakpoints, md)) {
+  .feedback-container {
+    margin: 0 auto;
+  }
+}

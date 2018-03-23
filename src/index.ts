@@ -5,8 +5,8 @@ import {
 import { ConfigurationComponent } from './configuration-component';
 
 const context = {
-  owner: 'utterance',
-  repo: 'utterances',
+  owner: 'ijgithub',
+  repo: 'awesome-repository',
   branch: 'master'
 };
 

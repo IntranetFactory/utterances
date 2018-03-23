@@ -110,8 +110,24 @@ export function loadJsonFile<T>(path: string, html = false) {
   });
 }
 
+export function loadIssuesByType(type: string) {
+  const q = ` type:issue in:title is:${type} repo:${owner}/${repo}`;
+  const request = githubRequest(`search/issues?q=${encodeURIComponent(q)}&sort=created&order=asc`);
+  return githubFetch(request).then<IssueSearchResponse>(response => {
+    if (!response.ok) {
+      throw new Error('Error fetching issues via search.');
+    }
+    return response.json();
+  }).then(results => {
+    if (results.total_count === 0) {
+      return null;
+    }
+    return results.items;
+  });
+}
+
 export function loadIssueByTerm(term: string) {
-  const q = `"${term}" type:issue in:title repo:${owner}/${repo}`;
+  const q = `"${term}" is:issue in:title repo:${owner}/${repo}`;
   const request = githubRequest(`search/issues?q=${encodeURIComponent(q)}&sort=created&order=asc`);
   return githubFetch(request).then<IssueSearchResponse>(response => {
     if (!response.ok) {
