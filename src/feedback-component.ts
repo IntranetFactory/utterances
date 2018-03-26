@@ -27,7 +27,6 @@ export class FeedbackComponent {
     user: User|null
   ) {
     this.tabChangedCallback = tabChanged;
-    this.user = user;
 
     let openIssuesTabName: string = 'open';
     let closedIssuesTabName: string = 'closed';
@@ -85,7 +84,7 @@ export class FeedbackComponent {
     const newIssueComponent = new NewIssueComponent(user, newIssueSubmit);
     newIssueFormContainer.appendChild(newIssueComponent.element);
 
-    newIssueBtn.addEventListener('click', function(event) {
+    newIssueBtn.addEventListener('click', function() {
       var hasAttr = newIssueFormContainer.hasAttribute('hidden');
       hasAttr ?
         newIssueFormContainer.removeAttribute('hidden') :
@@ -121,10 +120,11 @@ export class FeedbackComponent {
       return;
     }
 
+    let user = this.user;
     issues.forEach(function(issue) {
-      let component = new IssueComponent(issue, this.user);
+      let component = new IssueComponent(issue, user);
       issuesBox.appendChild(component.element);
-    }, this);
+    });
 
     publishResize();
   }
@@ -133,7 +133,6 @@ export class FeedbackComponent {
 
 export class IssueComponent {
   public readonly element: HTMLElement;
-  private readonly issue: Issue;
   private timelineComponent : TimelineComponent|null;
   private newCommentComponent : NewCommentComponent|null;
   private rightArrow: HTMLElement;
@@ -141,7 +140,6 @@ export class IssueComponent {
   private commentCount: Number;
 
   constructor(issue: Issue, user: User|null) {
-    this.issue = issue;
     let commentCount = this.commentCount = issue.comments;
 
     this.element = document.createElement('div');
