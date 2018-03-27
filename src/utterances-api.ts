@@ -6,6 +6,6 @@ declare global {
 }
 
 let uc: any = window.utterancesConfig;
-let apiUrl = uc.hasOwnProperty('utterancesApi') ? uc['utterancesApi'] : 'http://localhost:5000';
+let apiUrl = uc && uc.hasOwnProperty('utterancesApi') ? uc['utterancesApi'] : 'http://localhost:5000';
 
 export const UTTERANCES_API = apiUrl;
