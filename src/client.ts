@@ -1,10 +1,9 @@
 import { param } from './deparam';
 import { ResizeMessage } from './bus';
 
-let script = document.currentScript as HTMLScriptElement;
-if (script === undefined) {
-  // Internet Explorer :(
-  script = document.querySelector('#GitHubCommentScript') as HTMLScriptElement;
+let script = document.querySelector('#GitHubCommentScript') as HTMLScriptElement;
+if (!script) {
+  throw Error("GitHubCommentScript configuration element is required");
 }
 
 // gather script element's attributes
@@ -45,7 +44,7 @@ document.head.insertAdjacentHTML(
   </style>`);
 
 // create the comments iframe and it's responsive container
-const url = script.src.replace(/\/client(\.debug)?\.js(?:$|\?)/, '/utterances$1.html');
+const url = attrs['resources-path'] + '/utterances.html';
 script.insertAdjacentHTML(
   'afterend',
   `<div class="utterances">
