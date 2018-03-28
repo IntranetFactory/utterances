@@ -4,7 +4,7 @@ import { ResizeMessage } from './bus';
 let script = document.currentScript as HTMLScriptElement;
 if (script === undefined) {
   // Internet Explorer :(
-  script = document.querySelector('script[src^="https://utteranc.es/client.js"]') as HTMLScriptElement;
+  script = document.querySelector('#GitHubCommentScript') as HTMLScriptElement;
 }
 
 // gather script element's attributes
