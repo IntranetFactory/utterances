@@ -1,8 +1,8 @@
 import { param } from './deparam';
 import { pageAttributes as page } from './page-attributes';
 
-const authorizeUrl = `${page.utterancesApi}/authorize`;
-const tokenUrl = `${page.utterancesApi}/token`;
+const authorizeUrl = `${page.apiEndpoint}/authorize`;
+const tokenUrl = `${page.apiEndpoint}/token`;
 // tslint:disable-next-line:variable-name
 const redirect_uri = `${location.origin}/authorized.html`;
 const scope = 'public_repo';

@@ -33,8 +33,8 @@ function readPageAttributes() {
     throw new Error('"origin" is required.');
   }
 
-  if (!('utterances-api' in params)) {
-    throw new Error('"utterances-api" is required.');
+  if (!('api-endpoint' in params)) {
+    throw new Error('"api-endpoint" is required.');
   }
 
   const matches = repoRegex.exec(params.repo);
@@ -53,7 +53,7 @@ function readPageAttributes() {
     url: params.url,
     title: params.title,
     description: params.description,
-    utterancesApi: params['utterances-api']
+    apiEndpoint: params['api-endpoint']
   };
 }
 

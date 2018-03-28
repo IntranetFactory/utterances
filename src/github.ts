@@ -190,7 +190,7 @@ export function loadUser(): Promise<User | null> {
 }
 
 export function createIssue(issueTerm: string, documentUrl: string, title: string, description: string) {
-  const request = new Request(`${page.utterancesApi}/repos/${owner}/${repo}/issues`, {
+  const request = new Request(`${page.apiEndpoint}/repos/${owner}/${repo}/issues`, {
     method: 'POST',
     body: JSON.stringify({
       title: issueTerm,
