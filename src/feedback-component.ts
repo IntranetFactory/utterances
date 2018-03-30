@@ -19,12 +19,12 @@ export class FeedbackComponent {
   private openedTab: HTMLAnchorElement;
   private closedTab: HTMLAnchorElement;
   private issuesBox: HTMLElement;
-  private user: User|null;
+  private user: User | null;
 
-  private readonly tabChangedCallback: (tabName: string|null) => void
+  private readonly tabChangedCallback: (tabName: string | null) => void
   constructor(
-    tabChanged: (tabName: string|null) => void,
-    user: User|null
+    tabChanged: (tabName: string | null) => void,
+    user: User | null
   ) {
     this.tabChangedCallback = tabChanged;
 
@@ -84,7 +84,7 @@ export class FeedbackComponent {
     const newIssueComponent = new NewIssueComponent(user, newIssueSubmit);
     newIssueFormContainer.appendChild(newIssueComponent.element);
 
-    newIssueBtn.addEventListener('click', function() {
+    newIssueBtn.addEventListener('click', function () {
       var hasAttr = newIssueFormContainer.hasAttribute('hidden');
       hasAttr ?
         newIssueFormContainer.removeAttribute('hidden') :
@@ -121,7 +121,7 @@ export class FeedbackComponent {
     }
 
     let user = this.user;
-    issues.forEach(function(issue) {
+    issues.forEach(function (issue) {
       let component = new IssueComponent(issue, user);
       issuesBox.appendChild(component.element);
     });
@@ -133,13 +133,13 @@ export class FeedbackComponent {
 
 export class IssueComponent {
   public readonly element: HTMLElement;
-  private timelineComponent : TimelineComponent|null;
-  private newCommentComponent : NewCommentComponent|null;
+  private timelineComponent: TimelineComponent | null;
+  private newCommentComponent: NewCommentComponent | null;
   private rightArrow: HTMLElement;
   private downArrow: HTMLElement;
   private commentCount: Number;
 
-  constructor(issue: Issue, user: User|null) {
+  constructor(issue: Issue, user: User | null) {
     let commentCount = this.commentCount = issue.comments;
 
     this.element = document.createElement('div');
@@ -159,7 +159,7 @@ export class IssueComponent {
     const commentCountElt = this.element.querySelector('.issue-comment-count') as HTMLElement;
     const issueTitleText = this.element.querySelector('.issue-title-text') as HTMLElement;
 
-    rightArrow.addEventListener('click', function(event) {
+    rightArrow.addEventListener('click', function (event) {
       var target = event.target as HTMLElement;
       target.setAttribute('hidden', '');
 
@@ -169,7 +169,7 @@ export class IssueComponent {
       publishResize();
     });
 
-    downArrow.addEventListener('click', function(event) {
+    downArrow.addEventListener('click', function (event) {
       var target = event.target as HTMLElement;
       target.setAttribute('hidden', '');
 
@@ -202,7 +202,11 @@ export class IssueComponent {
     issueTitleText.addEventListener('click', toggleHidden);
 
     if (issue && issue.comments > 0) {
-      loadCommentsPage(issue.number, 1).then(({ items }) => timeline.replaceComments(items));
+      loadCommentsPage(issue.number, 1).then(commentsPage => {
+        commentsPage.items.forEach(item => {
+          timeline.appendComment(item);
+        });
+      });
     }
     const timeline = this.timelineComponent = new TimelineComponent(user, issue);
     timeline.element.setAttribute('hidden', '');
