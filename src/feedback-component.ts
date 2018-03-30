@@ -19,15 +19,10 @@ export class FeedbackComponent {
   private openedTab: HTMLAnchorElement;
   private closedTab: HTMLAnchorElement;
   private issuesBox: HTMLElement;
-  private user: User | null;
 
-  private readonly tabChangedCallback: (tabName: string | null) => void
   constructor(
-    tabChanged: (tabName: string | null) => void,
-    user: User | null
+    private _user: User | null
   ) {
-    this.tabChangedCallback = tabChanged;
-
     let openIssuesTabName: string = 'open';
     let closedIssuesTabName: string = 'closed';
 
@@ -35,7 +30,7 @@ export class FeedbackComponent {
     this.element.classList.add('feedback-container');
     this.element.innerHTML = `
       <div class="new-issue-btn-container">
-        <button type="button" class="btn btn-primary" id="newIssueBtn">Submit new issue</button>
+        <button type="button" class="btn btn-primary" id="newIssueBtn">Submit feedback</button>
       </div>
       <div id="newIssueFormContainer" hidden></div>
       <div class="tabnav">
@@ -53,7 +48,7 @@ export class FeedbackComponent {
     const setIssuesFn = this.setIssues.bind(this);
 
     const newIssueSubmit = (title: string, description: string): Promise<void> => {
-      if (user) {
+      if (this._user) {
         let commentPromise: Promise<IssueComment>;
         commentPromise = createIssue(
           title,
@@ -76,12 +71,12 @@ export class FeedbackComponent {
       }
 
       return login().then(() => loadUser()).then(u => {
-        user = u;
-        newIssueComponent.setUser(user);
+        this._user = u;
+        newIssueComponent.setUser(this._user);
       });
     };
 
-    const newIssueComponent = new NewIssueComponent(user, newIssueSubmit);
+    const newIssueComponent = new NewIssueComponent(this._user, newIssueSubmit);
     newIssueFormContainer.appendChild(newIssueComponent.element);
 
     newIssueBtn.addEventListener('click', function () {
@@ -98,6 +93,10 @@ export class FeedbackComponent {
 
     this.openedTab.addEventListener('click', this.handleTabClick.bind(this));
     this.closedTab.addEventListener('click', this.handleTabClick.bind(this));
+
+    loadIssuesByType("open").then((issues: Issue[] | null) => {
+      this.setIssues(issues);
+    });
   }
 
   private handleTabClick(event: MouseEvent): void {
@@ -106,7 +105,10 @@ export class FeedbackComponent {
     prevSelected!.classList.remove('selected');
     target.classList.add('selected');
 
-    this.tabChangedCallback(target.getAttribute('tabname'));
+    let tabName = target.getAttribute('tabname') as string;
+    loadIssuesByType(tabName).then((issues: Issue[] | null) => {
+      this.setIssues(issues);
+    });
   }
 
   setIssues(issues: Issue[] | null): void {
@@ -120,9 +122,8 @@ export class FeedbackComponent {
       return;
     }
 
-    let user = this.user;
-    issues.forEach(function (issue) {
-      let component = new IssueComponent(issue, user);
+    issues.forEach(issue => {
+      let component = new IssueComponent(issue, this._user);
       issuesBox.appendChild(component.element);
     });
 

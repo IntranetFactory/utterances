@@ -1,9 +1,7 @@
 import { pageAttributes as page } from './page-attributes';
 import {
-  Issue,
   User,
   setRepoContext,
-  loadIssuesByType,
   loadUser,
 } from './github';
 import { FeedbackComponent } from './feedback-component';
@@ -11,28 +9,13 @@ import { setHostOrigin, publishResize } from './bus';
 
 setRepoContext(page);
 
-function loadIssues(): Promise<Issue[] | null> {
-  return loadIssuesByType("open");
-}
+Promise.all([loadUser()])
+  .then(([user]) => bootstrap(user));
 
-Promise.all([loadIssues(), loadUser()])
-  .then(([issues, user]) => bootstrap(issues, user));
-
-function bootstrap(issues: Issue[] | null, user: User | null) {
+function bootstrap(user: User | null) {
   setHostOrigin(page.origin);
 
-  if (!issues) return;
-
-  const tabChanged = (tabname: string | null) => {
-    if (!tabname) return;
-    loadIssuesByType(tabname).then(issues => {
-      feedback.setIssues(issues);
-      publishResize();
-    });
-  }
-
-  const feedback = new FeedbackComponent(tabChanged, user);
-  feedback.setIssues(issues);
+  const feedback = new FeedbackComponent(user);
   document.body.appendChild(feedback.element);
   publishResize();
 }
