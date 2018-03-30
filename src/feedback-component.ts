@@ -20,6 +20,9 @@ export class FeedbackComponent {
   private closedTab: HTMLAnchorElement;
   private issuesBox: HTMLElement;
 
+  private newIssueComponent: NewIssueComponent;
+  private issueComponents: IssueComponent[] = [];
+
   constructor(
     private _user: User | null
   ) {
@@ -60,7 +63,7 @@ export class FeedbackComponent {
         });
 
         return commentPromise.then(() => {
-          newIssueComponent.clear();
+          this.newIssueComponent.clear();
           newIssueFormContainer.setAttribute('hidden', '');
           closedTab.classList.remove('selected');
           openedTab.classList.add('selected');
@@ -72,12 +75,16 @@ export class FeedbackComponent {
 
       return login().then(() => loadUser()).then(u => {
         this._user = u;
-        newIssueComponent.setUser(this._user);
+        this.newIssueComponent.setUser(this._user);
+
+        this.issueComponents.forEach(component => {
+          component.setUser(u as User);
+        });
       });
     };
 
-    const newIssueComponent = new NewIssueComponent(this._user, newIssueSubmit);
-    newIssueFormContainer.appendChild(newIssueComponent.element);
+    this.newIssueComponent = new NewIssueComponent(this._user, newIssueSubmit);
+    newIssueFormContainer.appendChild(this.newIssueComponent.element);
 
     newIssueBtn.addEventListener('click', function () {
       var hasAttr = newIssueFormContainer.hasAttribute('hidden');
@@ -97,6 +104,17 @@ export class FeedbackComponent {
     loadIssuesByType("open").then((issues: Issue[] | null) => {
       this.setIssues(issues);
     });
+
+    this.issuesBox.addEventListener('user-changed', event => {
+      let user: User = event.detail as User;
+
+      this.newIssueComponent.setUser(user);
+
+      this.issueComponents.forEach(component => {
+        component.setUser(user);
+      });
+
+    });
   }
 
   private handleTabClick(event: MouseEvent): void {
@@ -115,6 +133,7 @@ export class FeedbackComponent {
     let issuesBox = this.issuesBox;
     // @CLEANUP what about event listeners ???
     issuesBox.innerHTML = '';
+    this.issueComponents = [];
 
     if (!issues) {
       // display info message
@@ -125,6 +144,7 @@ export class FeedbackComponent {
     issues.forEach(issue => {
       let component = new IssueComponent(issue, this._user);
       issuesBox.appendChild(component.element);
+      this.issueComponents.push(component);
     });
 
     publishResize();
@@ -242,12 +262,18 @@ export class IssueComponent {
         user = u;
         timeline.setUser(user);
         newCommentComponent.setUser(user);
+        this.element.dispatchEvent(new CustomEvent<User>('user-changed', { detail: user as User, bubbles: true }));
       });
     };
 
     const newCommentComponent = this.newCommentComponent = new NewCommentComponent(user, submit);
     newCommentComponent.element.setAttribute('hidden', '');
     this.element.appendChild(newCommentComponent.element);
+  }
+
+  setUser(user: User) {
+    this.newCommentComponent!.setUser(user);
+    this.timelineComponent!.setUser(user);
   }
 }
 
