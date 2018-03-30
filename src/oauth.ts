@@ -5,10 +5,9 @@ const authorizeUrl = `${page.apiEndpoint}/authorize`;
 const tokenUrl = `${page.apiEndpoint}/token`;
 // tslint:disable-next-line:variable-name
 const redirect_uri = `${location.origin}/authorized.html`;
-const scope = 'public_repo';
 
 class Token {
-  private readonly storageKey = 'OAUTH_TOKEN';
+  private readonly storageKey = 'OAUTH_TOKEN2';
   private token: string | null = null;
 
   constructor() {
@@ -37,9 +36,9 @@ class Token {
 export const token = new Token();
 
 export function login() {
-  window.open(`${authorizeUrl}?${param({ scope, redirect_uri })}`);
+  window.open(`${authorizeUrl}?${param({ redirect_uri })}`);
   return new Promise(resolve => (window as any).notifyAuthorized = resolve)
-    .then(() => fetch(tokenUrl, { mode: 'cors', credentials: 'include' }))
+    .then(search => fetch(tokenUrl + search, { mode: 'cors' }))
     .then(response => {
       if (response.ok) {
         return response.json();

@@ -24,7 +24,7 @@ function githubRequest(relativeUrl: string, init?: RequestInit) {
   init.cache = 'no-cache'; // force conditional request
   const request = new Request(GITHUB_API + relativeUrl, init);
   request.headers.set('Accept', GITHUB_ENCODING__REACTIONS_PREVIEW);
-  if (token.value !== null) {
+  if (!/^search\//.test(relativeUrl) && token.value !== null) {
     request.headers.set('Authorization', `token ${token.value}`);
   }
   return request;
@@ -77,12 +77,28 @@ function readRelNext(response: Response) {
   return +match[1];
 }
 
-function githubFetch(request: Request) {
+function githubFetch(request: Request): Promise<Response> {
   return fetch(request).then(response => {
     if (response.status === 401) {
       token.value = null;
     }
+    if (response.status === 403) {
+      response.json().then(data => {
+        if (data.message === 'Resource not accessible by integration') {
+          window.dispatchEvent(new CustomEvent('not-installed'));
+        }
+      });
+    }
+
     processRateLimit(response);
+
+    if (request.method === 'GET'
+      && [401, 403].indexOf(response.status) !== -1
+      && request.headers.has('Authorization')
+    ) {
+      request.headers.delete('Authorization');
+      return githubFetch(request);
+    }
     return response;
   });
 }
@@ -219,6 +235,12 @@ export function postComment(issueNumber: number, markdown: string) {
     }
     return response.json();
   });
+}
+
+export function renderMarkdown(text: string) {
+  const body = JSON.stringify({ text, mode: 'gfm', context: `${owner}/${repo}` });
+  return githubFetch(githubRequest('markdown', { method: 'POST', body }))
+    .then(response => response.text());
 }
 
 interface IssueSearchResponse {
