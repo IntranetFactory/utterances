@@ -3458,6 +3458,12 @@ primer-base@^1.7.0:
   dependencies:
     primer-support "4.5.2"
 
+primer-box@^2.5.5:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/primer-box/-/primer-box-2.5.5.tgz#8fbead6bdbf1d201ad81f1815172d723f499b4bb"
+  dependencies:
+    primer-support "4.5.2"
+
 primer-buttons@^2.5.3:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/primer-buttons/-/primer-buttons-2.5.3.tgz#b5a40d0b325c6f6b9e04c5515152a309fd963095"
@@ -3467,6 +3473,12 @@ primer-buttons@^2.5.3:
 primer-forms@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/primer-forms/-/primer-forms-2.1.0.tgz#d27b4bba8bd214a097fe8a5615ed6837146feb2d"
+  dependencies:
+    primer-support "4.5.2"
+
+primer-layout@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/primer-layout/-/primer-layout-1.4.5.tgz#6fcdca670ef0bf5c428abe8be8649d83c51e796f"
   dependencies:
     primer-support "4.5.2"
 

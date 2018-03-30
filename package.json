@@ -10,10 +10,13 @@
   },
   "scripts": {
     "clean": "rm -rf .cache & rm -rf dist",
+    "cleanlib": "rm -rf lib & rm -rf libdemo & mkdir lib & mkdir libdemo",
+    "deploylib": "cp dist/utterances* lib & cp dist/authorized.html lib/authorized.html & cp dist/client* libdemo",
     "prestart": "yarn run clean",
     "start": "parcel src/index.html --no-hmr --public-url / --port 4000",
-    "prebuild": "yarn run clean",
-    "build": "parcel build src/index.html",
+    "prebuild": "yarn run clean & yarn run cleanlib",
+    "build": "parcel build src/index.html --no-minify --no-cache --public-url ./",
+    "postbuild": "yarn run deploylib",
     "lint": "tslint --project tsconfig.json",
     "predeploy": "yarn run build && touch dist/.nojekyll && echo 'utteranc.es' > dist/CNAME",
     "deploy": "gh-pages --dist dist"
@@ -31,6 +34,8 @@
     "primer-forms": "^2.1.0",
     "primer-markdown": "^3.7.5",
     "primer-navigation": "^1.5.3",
+    "primer-box": "^2.5.5",
+    "primer-layout": "^1.4.5",
     "tslint": "^5.9.1",
     "typescript": "^2.8.1"
   }
