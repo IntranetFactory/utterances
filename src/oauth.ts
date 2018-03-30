@@ -4,7 +4,10 @@ import { pageAttributes as page } from './page-attributes';
 const authorizeUrl = `${page.apiEndpoint}/authorize`;
 const tokenUrl = `${page.apiEndpoint}/token`;
 // tslint:disable-next-line:variable-name
-const redirect_uri = `${location.origin}/authorized.html`;
+
+const redirect_uri = page.resourcesPath ?
+  `${location.origin}/${page.resourcesPath}/authorized.html` :
+  `${location.origin}/authorized.html`;
 
 class Token {
   private readonly storageKey = 'OAUTH_TOKEN2';

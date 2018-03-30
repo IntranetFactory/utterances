@@ -37,6 +37,8 @@ function readPageAttributes() {
     throw new Error('"api-endpoint" is required.');
   }
 
+  const resourcesPath = ('resources-path' in params) ? params['resources-path'] : "";
+
   const matches = repoRegex.exec(params.repo);
   if (matches === null) {
     throw new Error(`Invalid repo: "${params.repo}"`);
@@ -53,7 +55,8 @@ function readPageAttributes() {
     url: params.url,
     title: params.title,
     description: params.description,
-    apiEndpoint: params['api-endpoint']
+    apiEndpoint: params['api-endpoint'],
+    resourcesPath: resourcesPath
   };
 }
 
