@@ -4248,5 +4248,8 @@ a.tabnav-extra:hover {
   .feedback-container {
     margin: 0 auto; } }
 
+.feedback-container .tabnav-tabs .tabnav-tab {
+  cursor: pointer; }
+
 .flash-not-installed {
   margin-bottom: 16px; }

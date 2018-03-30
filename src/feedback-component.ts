@@ -164,10 +164,10 @@ export class IssueComponent {
     let commentCount = this.commentCount = issue.comments;
 
     this.element = document.createElement('div');
-    // this.element.classList.add('Box-row');
+    this.element.classList.add('Box-row');
     // this.element.classList.add('issue-box');
     this.element.innerHTML = `
-      <div class="Box-row issue-box">
+      <div class="issue-box">
         <div class="arrow arrow-right">&#707;</div>
         <div class="arrow arrow-down" hidden>&#709;</div>
         <div class="issue-title"><span class="issue-title-text">${issue.title}</span></div>
@@ -229,7 +229,7 @@ export class IssueComponent {
         });
       });
     }
-    const timeline = this.timelineComponent = new TimelineComponent(user, issue);
+    const timeline = this.timelineComponent = new TimelineComponent(user);
     timeline.element.setAttribute('hidden', '');
     this.element.appendChild(this.timelineComponent.element);
 
@@ -246,7 +246,6 @@ export class IssueComponent {
             page.description
           ).then(newIssue => {
             issue = newIssue;
-            timeline.setIssue(issue);
             return postComment(issue.number, markdown);
           });
         }
@@ -300,6 +299,7 @@ export class NewIssueComponent {
   ) {
     this.element = document.createElement('article');
     this.element.classList.add('timeline-comment');
+    this.element.classList.add('Box-row');
     this.element.addEventListener('mousemove', publishResize); // todo: measure, throttle
 
     this.element.innerHTML = `
