@@ -4235,11 +4235,13 @@ a.tabnav-extra:hover {
   flex: 1; }
 
 .issue-title-text {
-  cursor: pointer; }
+  cursor: pointer;
+  font-weight: 600; }
 
 .issue-comment-count {
   display: block;
-  cursor: pointer; }
+  cursor: pointer;
+  font-weight: 600; }
 
 [hidden] {
   display: none !important; }
