@@ -67,7 +67,7 @@ export class FeedbackComponent {
           newIssueFormContainer.setAttribute('hidden', '');
           closedTab.classList.remove('selected');
           openedTab.classList.add('selected');
-          loadIssuesByType("open").then(issues => {
+          loadIssuesByType(page.issueTerm as string, "open").then(issues => {
             setIssuesFn(issues);
           });
         });
@@ -101,7 +101,7 @@ export class FeedbackComponent {
     this.openedTab.addEventListener('click', this.handleTabClick.bind(this));
     this.closedTab.addEventListener('click', this.handleTabClick.bind(this));
 
-    loadIssuesByType("open").then((issues: Issue[] | null) => {
+    loadIssuesByType(page.issueTerm as string, "open").then((issues: Issue[] | null) => {
       this.setIssues(issues);
     });
 
@@ -124,7 +124,7 @@ export class FeedbackComponent {
     target.classList.add('selected');
 
     let tabName = target.getAttribute('tabname') as string;
-    loadIssuesByType(tabName).then((issues: Issue[] | null) => {
+    loadIssuesByType(page.issueTerm as string, tabName).then((issues: Issue[] | null) => {
       this.setIssues(issues);
     });
   }
@@ -137,7 +137,8 @@ export class FeedbackComponent {
 
     if (!issues) {
       // display info message
-      issuesBox.innerHTML = `No issues`;
+      issuesBox.textContent = `No issues`;
+      publishResize();
       return;
     }
 
