@@ -42,7 +42,13 @@ export class FeedbackComponent {
           <a id="closedTab" link="#" class="tabnav-tab" tabname="${closedIssuesTabName}">Closed</a>
         </nav>
       </div>
-      <div id="issuesBox" class="Box issues-box"></div>
+      <div id="issuesBox" class="Box issues-box">
+        <div class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+      </div>
     `;
 
     const newIssueBtn = this.element.querySelector('#newIssueBtn') as HTMLElement;
@@ -122,6 +128,13 @@ export class FeedbackComponent {
     var prevSelected = target!.parentElement!.querySelector('.selected');
     prevSelected!.classList.remove('selected');
     target.classList.add('selected');
+
+    this.issuesBox.innerHTML = `<div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>`;
+    publishResize();
 
     let tabName = target.getAttribute('tabname') as string;
     loadIssuesByType(page.issueTerm as string, tabName).then((issues: Issue[] | null) => {

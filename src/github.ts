@@ -127,7 +127,7 @@ export function loadJsonFile<T>(path: string, html = false) {
 }
 
 export function loadIssuesByType(term: string, type: string) {
-  const q = `${term} type:issue in:title is:${type} repo:${owner}/${repo}`;
+  const q = `${term} type:issue in:body is:${type} repo:${owner}/${repo}`;
   const request = githubRequest(`search/issues?q=${encodeURIComponent(q)}&sort=created&order=asc`);
   return githubFetch(request).then<IssueSearchResponse>(response => {
     if (!response.ok) {
