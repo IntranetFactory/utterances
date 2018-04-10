@@ -4225,7 +4225,14 @@ a.tabnav-extra:hover {
 .arrow {
   display: block;
   width: 16px;
-  cursor: pointer; }
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center; }
+  .arrow.arrow-right {
+    background-image: url("icons8-forward.3226d654.svg"); }
+  .arrow.arrow-down {
+    background-image: url("icons8-expand-arrow.b7a25c27.svg"); }
 
 .arrow[hidden] {
   display: none; }
@@ -4237,11 +4244,18 @@ a.tabnav-extra:hover {
 .issue-title-text {
   cursor: pointer;
   font-weight: 600; }
+  .issue-title-text:hover {
+    text-shadow: 0 0 10px #00008b; }
 
 .issue-comment-count {
   display: block;
   cursor: pointer;
-  font-weight: 600; }
+  font-weight: 600;
+  padding-left: 32px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("icons8-comments.b8f62345.svg"); }
 
 [hidden] {
   display: none !important; }

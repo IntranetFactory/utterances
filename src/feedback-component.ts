@@ -182,10 +182,10 @@ export class IssueComponent {
     // this.element.classList.add('issue-box');
     this.element.innerHTML = `
       <div class="issue-box">
-        <div class="arrow arrow-right">&#707;</div>
-        <div class="arrow arrow-down" hidden>&#709;</div>
+        <div class="arrow arrow-right"></div>
+        <div class="arrow arrow-down" hidden></div>
         <div class="issue-title"><span class="issue-title-text">${issue.title}</span></div>
-        <div class="issue-comment-count">${commentCount} comments</div>
+        <div class="issue-comment-count">${commentCount}</div>
       </div>
     `;
 
