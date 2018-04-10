@@ -4218,6 +4218,9 @@ a.tabnav-extra:hover {
 .issues-box {
   margin-top: -16px; }
 
+.issue-sub {
+  padding-left: 16px; }
+
 .issue-box {
   display: flex;
   flex-direction: row; }

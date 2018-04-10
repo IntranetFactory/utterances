@@ -13,6 +13,11 @@ import { login } from './oauth';
 import { TimelineComponent } from './timeline-component';
 import { NewCommentComponent } from './new-comment-component';
 import { publishResize } from './bus';
+// import { JavascriptTimeAgo } from 'javascript-time-ago';
+// import { en } from 'javascript-time-ago/locale/en';
+
+// JavascriptTimeAgo.locale(en);
+// const timeago = new JavascriptTimeAgo('en-US');
 
 export class FeedbackComponent {
   public readonly element: HTMLElement;
@@ -176,21 +181,24 @@ export class IssueComponent {
 
   constructor(issue: Issue, user: User | null) {
     let commentCount = this.commentCount = issue.comments;
-
+    // let ago = timeago.format(issue.created_at);
+    let ago = issue.created_at;
     this.element = document.createElement('div');
     this.element.classList.add('Box-row');
-    // this.element.classList.add('issue-box');
     this.element.innerHTML = `
-      <div class="issue-box">
-        <div class="arrow arrow-right"></div>
-        <div class="arrow arrow-down" hidden></div>
-        <div class="issue-title"><span class="issue-title-text">${issue.title}</span></div>
-        <div class="issue-comment-count">${commentCount}</div>
+      <div>
+        <div class="issue-box">
+          <div class="arrow arrow-right"></div>
+          <div class="arrow arrow-down" hidden></div>
+          <div class="issue-title"><span class="issue-title-text">${issue.title}</span></div>
+          <div class="issue-comment-count">${commentCount}</div>
+        </div>
+        <div class="issue-sub"><a target="_blank" href="${issue.html_url}">#${issue.number}</a> opened ${ago} by <a target="_blank" href="${issue.user.html_url}">${issue.user.login}</a></div>
       </div>
     `;
 
-    const rightArrow = this.rightArrow = this.element.firstElementChild!.firstElementChild as HTMLElement;
-    const downArrow = this.downArrow = this.rightArrow!.nextElementSibling as HTMLElement;
+    const rightArrow = this.rightArrow = this.element.querySelector(".arrow-right") as HTMLElement;
+    const downArrow = this.downArrow = this.element.querySelector(".arrow-down") as HTMLElement;
     const commentCountElt = this.element.querySelector('.issue-comment-count') as HTMLElement;
     const issueTitleText = this.element.querySelector('.issue-title-text') as HTMLElement;
 
