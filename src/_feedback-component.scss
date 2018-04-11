@@ -8,12 +8,13 @@
   margin: $spacer-3 $spacer-1;
 }
 
-.new-issue-btn-container {
-  margin: 16px 0;
-}
-
 .issues-box {
   margin-top: -16px;
+}
+
+.view-in-github-box {
+  display: block;
+  box-sizing: border-box;
 }
 
 .issue-sub {

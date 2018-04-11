@@ -4212,11 +4212,12 @@ a.tabnav-extra:hover {
   max-width: 760px;
   margin: 16px 4px; }
 
-.new-issue-btn-container {
-  margin: 16px 0; }
-
 .issues-box {
   margin-top: -16px; }
+
+.view-in-github-box {
+  display: block;
+  box-sizing: border-box; }
 
 .issue-sub {
   padding-left: 16px; }

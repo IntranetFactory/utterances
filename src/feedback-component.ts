@@ -173,6 +173,7 @@ export class IssueComponent {
           <div class="arrow arrow-right"></div>
           <div class="arrow arrow-down" hidden></div>
           <div class="issue-title"><span class="issue-title-text">${issue.title}</span></div>
+          <a id="viewInGithub" hidden class="view-in-github-box" target="_blank" href="${issue.html_url}">View in github</a>
           <div class="issue-comment-count">${commentCount}</div>
         </div>
         <div class="issue-sub"><a target="_blank" href="${issue.html_url}">#${issue.number}</a> opened ${ago} by <a target="_blank" href="${issue.user.html_url}">${issue.user.login}</a></div>
@@ -183,27 +184,7 @@ export class IssueComponent {
     const downArrow = this.downArrow = this.element.querySelector(".arrow-down") as HTMLElement;
     const commentCountElt = this.element.querySelector('.issue-comment-count') as HTMLElement;
     const issueTitleText = this.element.querySelector('.issue-title-text') as HTMLElement;
-
-    rightArrow.addEventListener('click', function (event) {
-      var target = event.target as HTMLElement;
-      target.setAttribute('hidden', '');
-
-      downArrow.removeAttribute('hidden');
-      timeline.element.removeAttribute('hidden');
-      newCommentComponent.element.removeAttribute('hidden');
-      publishResize();
-    });
-
-    downArrow.addEventListener('click', function (event) {
-      var target = event.target as HTMLElement;
-      target.setAttribute('hidden', '');
-
-      rightArrow.removeAttribute('hidden');
-
-      timeline.element.setAttribute('hidden', '');
-      newCommentComponent.element.setAttribute('hidden', '');
-      publishResize();
-    });
+    const viewInGithub = this.element.querySelector('#viewInGithub') as HTMLElement;
 
     const toggleHidden = (): void => {
       let isOpen = rightArrow.hasAttribute('hidden');
@@ -212,16 +193,21 @@ export class IssueComponent {
         downArrow.setAttribute('hidden', '');
         timeline.element.setAttribute('hidden', '');
         newCommentComponent.element.setAttribute('hidden', '');
+        viewInGithub.setAttribute('hidden', '');
 
       } else {
         rightArrow.setAttribute('hidden', '');
         downArrow.removeAttribute('hidden');
         timeline.element.removeAttribute('hidden');
         newCommentComponent.element.removeAttribute('hidden');
+        viewInGithub.removeAttribute('hidden');
       }
 
       publishResize();
     }
+
+    rightArrow.addEventListener('click', toggleHidden);
+    downArrow.addEventListener('click', toggleHidden);
 
     commentCountElt.addEventListener('click', toggleHidden);
     issueTitleText.addEventListener('click', toggleHidden);
