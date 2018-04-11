@@ -3,11 +3,6 @@
 @import "primer-box/index";
 @import "primer-layout/index";
 
-.feedback-container {
-  max-width: 760px;
-  margin: $spacer-3 $spacer-1;
-}
-
 .issues-box {
   margin-top: -16px;
 }
@@ -74,12 +69,6 @@
 
 [hidden] {
   display: none !important;
-}
-
-@media (min-width: map-get($breakpoints, md)) {
-  .feedback-container {
-    margin: 0 auto;
-  }
 }
 
 .feedback-container .tabnav-tabs .tabnav-tab {

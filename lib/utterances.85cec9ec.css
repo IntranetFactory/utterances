@@ -1274,10 +1274,6 @@ input::-webkit-inner-spin-button {
   overflow-x: hidden;
   overflow-y: auto; }
 
-.timeline {
-  max-width: 760px;
-  margin: 16px 4px; }
-
 .timeline-header {
   margin: 0;
   padding-left: 16px;
@@ -1290,10 +1286,6 @@ input::-webkit-inner-spin-button {
 @media (min-width: 544px) {
   .timeline-header {
     padding-left: 60px; } }
-
-@media (min-width: 768px) {
-  .timeline {
-    margin: 0 auto; } }
 
 .timeline-comment {
   display: flex;
@@ -2649,10 +2641,6 @@ a.tabnav-extra:hover {
     color: #29b249;
     background-color: #fff; }
 
-.timeline {
-  max-width: 760px;
-  margin: 16px 4px; }
-
 .timeline-header {
   margin: 0;
   padding-left: 16px;
@@ -2665,10 +2653,6 @@ a.tabnav-extra:hover {
 @media (min-width: 544px) {
   .timeline-header {
     padding-left: 60px; } }
-
-@media (min-width: 768px) {
-  .timeline {
-    margin: 0 auto; } }
 
 .timeline-comment {
   display: flex;
@@ -4208,10 +4192,6 @@ a.tabnav-extra:hover {
   .offset-xl-11 {
     margin-left: 91.66667%; } }
 
-.feedback-container {
-  max-width: 760px;
-  margin: 16px 4px; }
-
 .issues-box {
   margin-top: -16px; }
 
@@ -4263,10 +4243,6 @@ a.tabnav-extra:hover {
 
 [hidden] {
   display: none !important; }
-
-@media (min-width: 768px) {
-  .feedback-container {
-    margin: 0 auto; } }
 
 .feedback-container .tabnav-tabs .tabnav-tab {
   cursor: pointer; }
