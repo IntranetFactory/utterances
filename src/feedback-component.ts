@@ -34,10 +34,7 @@ export class FeedbackComponent {
     this.element = document.createElement('div');
     this.element.classList.add('feedback-container');
     this.element.innerHTML = `
-      <div class="new-issue-btn-container">
-        <button type="button" class="btn btn-primary" id="newIssueBtn">Submit feedback</button>
-      </div>
-      <div id="newIssueFormContainer" hidden></div>
+      <div id="newIssueFormContainer"></div>
       <div class="tabnav">
         <nav class="tabnav-tabs">
           <a id="openedTab" link="#" class="tabnav-tab selected" tabname="${openIssuesTabName}">Open</a>
@@ -52,9 +49,6 @@ export class FeedbackComponent {
         </div>
       </div>
     `;
-
-    const newIssueBtn = this.element.querySelector('#newIssueBtn') as HTMLElement;
-    const newIssueFormContainer = this.element.querySelector('#newIssueFormContainer') as HTMLElement;
 
     const setIssuesFn = this.setIssues.bind(this);
 
@@ -72,7 +66,6 @@ export class FeedbackComponent {
 
         return commentPromise.then(() => {
           this.newIssueComponent.clear();
-          newIssueFormContainer.setAttribute('hidden', '');
           closedTab.classList.remove('selected');
           openedTab.classList.add('selected');
           loadIssuesByType(page.issueTerm as string, "open").then(issues => {
@@ -91,16 +84,9 @@ export class FeedbackComponent {
       });
     };
 
+    const newIssueFormContainer = this.element.querySelector('#newIssueFormContainer') as HTMLElement;
     this.newIssueComponent = new NewIssueComponent(this._user, newIssueSubmit);
     newIssueFormContainer.appendChild(this.newIssueComponent.element);
-
-    newIssueBtn.addEventListener('click', function () {
-      var hasAttr = newIssueFormContainer.hasAttribute('hidden');
-      hasAttr ?
-        newIssueFormContainer.removeAttribute('hidden') :
-        newIssueFormContainer.setAttribute('hidden', '');
-      publishResize();
-    });
 
     this.issuesBox = this.element.querySelector('#issuesBox') as HTMLElement;
     const openedTab = this.openedTab = this.element.querySelector('#openedTab') as HTMLAnchorElement;
@@ -270,7 +256,7 @@ export class IssueComponent {
         return commentPromise.then(comment => {
           timeline.appendComment(comment);
           ++commentCount;
-          commentCountElt!.textContent = `${commentCount} comments`;
+          commentCountElt!.textContent = commentCount + '';
           newCommentComponent.clear();
         });
       }
@@ -326,11 +312,11 @@ export class NewIssueComponent {
       </a>
       <form class="comment" accept-charset="UTF-8" action="javascript:">
         <header class="comment-header">
-          <strong>Join the discussion</strong>
+          <strong>Submit your feedback</strong>
         </header>
         <div class="comment-body">
           <input class="form-control input-block" placeholder="Title"/>
-          <textarea placeholder="Leave a comment" aria-label="comment"></textarea>
+          <textarea placeholder="Leave your comment" aria-label="comment"></textarea>
         </div>
         <footer class="comment-footer">
           <a class="text-link markdown-info" tabindex="-1" target="_blank"
@@ -367,7 +353,6 @@ export class NewIssueComponent {
       this.avatarAnchor.removeAttribute('href');
       this.avatar.alt = '@anonymous';
       this.avatar.src = anonymousAvatarUrl;
-      this.textarea.disabled = true;
     }
   }
 
