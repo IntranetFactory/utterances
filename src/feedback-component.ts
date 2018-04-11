@@ -13,11 +13,8 @@ import { login } from './oauth';
 import { TimelineComponent } from './timeline-component';
 import { NewCommentComponent } from './new-comment-component';
 import { publishResize } from './bus';
-// import { JavascriptTimeAgo } from 'javascript-time-ago';
-// import { en } from 'javascript-time-ago/locale/en';
 
-// JavascriptTimeAgo.locale(en);
-// const timeago = new JavascriptTimeAgo('en-US');
+declare var window: any;
 
 export class FeedbackComponent {
   public readonly element: HTMLElement;
@@ -181,8 +178,7 @@ export class IssueComponent {
 
   constructor(issue: Issue, user: User | null) {
     let commentCount = this.commentCount = issue.comments;
-    // let ago = timeago.format(issue.created_at);
-    let ago = issue.created_at;
+    let ago = window["moment"](issue.created_at).fromNow();
     this.element = document.createElement('div');
     this.element.classList.add('Box-row');
     this.element.innerHTML = `
