@@ -168,15 +168,12 @@ export class IssueComponent {
     this.element = document.createElement('div');
     this.element.classList.add('Box-row');
     this.element.innerHTML = `
-      <div>
-        <div class="issue-box">
-          <div class="arrow arrow-right"></div>
-          <div class="arrow arrow-down" hidden></div>
-          <div class="issue-title"><span class="issue-title-text">${issue.title}</span></div>
-          <a id="viewInGithub" hidden class="view-in-github-box" target="_blank" href="${issue.html_url}">View in github</a>
-          <div class="issue-comment-count">${commentCount}</div>
-        </div>
-        <div class="issue-sub"><a target="_blank" href="${issue.html_url}">#${issue.number}</a> opened ${ago} by <a target="_blank" href="${issue.user.html_url}">${issue.user.login}</a></div>
+      <div class="issue-box">
+        <div class="arrow arrow-right"></div>
+        <div class="arrow arrow-down" hidden></div>
+        <div class="issue-title"><span class="issue-title-text">${issue.title}</span></div>
+        <a id="viewInGithub" hidden class="view-in-github-box" target="_blank" href="${issue.html_url}">View in github</a>
+        <div class="issue-comment-count">${commentCount}</div>
       </div>
     `;
 
@@ -258,6 +255,11 @@ export class IssueComponent {
     const newCommentComponent = this.newCommentComponent = new NewCommentComponent(user, submit);
     newCommentComponent.element.setAttribute('hidden', '');
     this.element.appendChild(newCommentComponent.element);
+
+    const issueSub = document.createElement('div');
+    issueSub.classList.add('issue-sub');
+    issueSub.innerHTML = `<a target="_blank" href="${issue.html_url}">#${issue.number}</a> opened ${ago} by <a target="_blank" href="${issue.user.html_url}">${issue.user.login}</a>`;
+    this.element.appendChild(issueSub);
   }
 
   setUser(user: User) {
