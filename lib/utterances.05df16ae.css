@@ -4195,55 +4195,6 @@ a.tabnav-extra:hover {
 .issues-box {
   margin-top: -16px; }
 
-.view-in-github-box {
-  display: block;
-  box-sizing: border-box; }
-
-.issue-sub {
-  padding-left: 16px; }
-
-.issue-box {
-  display: flex;
-  flex-direction: row; }
-
-.arrow {
-  display: block;
-  width: 16px;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center; }
-  .arrow.arrow-right {
-    background-image: url("icons8-forward.3226d654.svg"); }
-  .arrow.arrow-down {
-    background-image: url("icons8-expand-arrow.b7a25c27.svg"); }
-
-.arrow[hidden] {
-  display: none; }
-
-.issue-title {
-  display: block;
-  flex: 1; }
-
-.issue-title-text {
-  cursor: pointer;
-  font-weight: 600; }
-  .issue-title-text:hover {
-    text-shadow: 0 0 10px #00008b; }
-
-.issue-comment-count {
-  display: block;
-  cursor: pointer;
-  font-weight: 600;
-  padding-left: 32px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url("icons8-comments.b8f62345.svg"); }
-
-[hidden] {
-  display: none !important; }
-
 .feedback-container .tabnav-tabs .tabnav-tab {
   cursor: pointer; }
 
@@ -4287,5 +4238,54 @@ a.tabnav-extra:hover {
     -webkit-transform: scale(1);
     transform: scale(1); } }
 
+.issue-box {
+  display: flex;
+  flex-direction: row; }
+
+.arrow {
+  display: block;
+  width: 16px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center; }
+  .arrow.arrow-right {
+    background-image: url("icons8-forward.3226d654.svg"); }
+  .arrow.arrow-down {
+    background-image: url("icons8-expand-arrow.b7a25c27.svg"); }
+
+.arrow[hidden] {
+  display: none; }
+
+.issue-title {
+  display: block;
+  flex: 1; }
+
+.issue-title-text {
+  cursor: pointer;
+  font-weight: 600; }
+  .issue-title-text:hover {
+    color: #0366d6; }
+
+.view-in-github-box {
+  display: block;
+  box-sizing: border-box; }
+
+.issue-comment-count {
+  display: block;
+  cursor: pointer;
+  font-weight: 600;
+  padding-left: 32px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("icons8-comments.b8f62345.svg"); }
+
+.issue-sub {
+  padding-left: 16px; }
+
 .flash-not-installed {
   margin-bottom: 16px; }
+
+[hidden] {
+  display: none !important; }

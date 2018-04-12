@@ -13,7 +13,12 @@ body {
 @import "timeline";
 @import "timeline-comment";
 @import "feedback-component";
+@import "issue-component";
 
 .flash-not-installed {
   margin-bottom: $spacer-3;
+}
+
+[hidden] {
+  display: none !important;
 }
