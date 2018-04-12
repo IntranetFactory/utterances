@@ -34,7 +34,7 @@ export class FeedbackComponent {
     this.element = document.createElement('div');
     this.element.classList.add('feedback-container');
     this.element.innerHTML = `
-      <div id="newIssueFormContainer"></div>
+      <div id="newIssueFormContainer" class="new-issue-form-container"></div>
       <div class="tabnav">
         <nav class="tabnav-tabs">
           <a id="openedTab" link="#" class="tabnav-tab selected" tabname="${openIssuesTabName}">Open</a>
@@ -291,7 +291,6 @@ export class NewIssueComponent {
   ) {
     this.element = document.createElement('article');
     this.element.classList.add('timeline-comment');
-    this.element.classList.add('Box-row');
     this.element.addEventListener('mousemove', publishResize); // todo: measure, throttle
 
     this.element.innerHTML = `
