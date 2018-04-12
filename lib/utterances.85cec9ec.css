@@ -4206,9 +4206,6 @@ a.tabnav-extra:hover {
   display: flex;
   flex-direction: row; }
 
-.new-issue-form-container {
-  margin-bottom: 16px; }
-
 .arrow {
   display: block;
   width: 16px;
