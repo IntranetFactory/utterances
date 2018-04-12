@@ -4246,6 +4246,7 @@ a.tabnav-extra:hover {
   display: block;
   width: 16px;
   cursor: pointer;
+  margin-right: 5px;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center; }
@@ -4283,7 +4284,7 @@ a.tabnav-extra:hover {
 
 .issue-sub {
   margin-top: 5px;
-  padding-left: 16px; }
+  padding-left: 21px; }
 
 .flash-not-installed {
   margin-bottom: 16px; }
