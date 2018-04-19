@@ -88,7 +88,6 @@ export class NewCommentComponent {
       this.avatarAnchor.removeAttribute('href');
       this.avatar.alt = '@anonymous';
       this.avatar.src = anonymousAvatarUrl;
-      this.textarea.disabled = true;
     }
   }
 
@@ -123,12 +122,10 @@ export class NewCommentComponent {
     }
     this.submitting = true;
     if (this.user) {
-      this.textarea.disabled = true;
       this.submitButton.disabled = true;
     }
     this.submit(this.textarea.value).catch(() => 0).then(() => {
       this.submitting = false;
-      this.textarea.disabled = !this.user;
       this.textarea.value = '';
       this.submitButton.disabled = false;
       this.handleClick({ target: this.form.querySelector('.tabnav-tab.tab-write') } as any);
