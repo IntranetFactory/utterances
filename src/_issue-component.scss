@@ -1,3 +1,5 @@
+$hover-text-color: #0366d6;
+
 .issue-box {
   display: flex;
   flex-direction: row;
@@ -34,25 +36,40 @@
   cursor: pointer;
   font-weight: 600;
   &:hover {
-    color: #0366d6;
+    color: $hover-text-color;
   }
 }
 
 .view-in-github-box {
   display: block;
   box-sizing: border-box;
+  margin-right: 16px;
 }
 
-.issue-comment-count {
-  display: block;
+.comment-count-container {
+  display: flex;
+  flex-direction: row;
   cursor: pointer;
-  font-weight: 600;
+  &:hover {
+    color: $hover-text-color;
 
-  padding-left: 32px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url("icons/icons8-comments.svg");
+    & svg {
+      stroke: $hover-text-color;
+    }
+  }
+}
+
+.comment-icon {
+  & svg {
+    display: block;
+    width: 18px;
+    height: 21px;
+    margin-right: 5px;
+  }
+}
+
+.count-text {
+  display: block;
 }
 
 .issue-sub {

@@ -4198,6 +4198,9 @@ a.tabnav-extra:hover {
 .feedback-container .tabnav-tabs .tabnav-tab {
   cursor: pointer; }
 
+.text-bold {
+  font-weight: 600; }
+
 .spinner {
   margin: 32px auto;
   width: 70px;
@@ -4270,17 +4273,26 @@ a.tabnav-extra:hover {
 
 .view-in-github-box {
   display: block;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  margin-right: 16px; }
 
-.issue-comment-count {
+.comment-count-container {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer; }
+  .comment-count-container:hover {
+    color: #0366d6; }
+    .comment-count-container:hover svg {
+      stroke: #0366d6; }
+
+.comment-icon svg {
   display: block;
-  cursor: pointer;
-  font-weight: 600;
-  padding-left: 32px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url("icons8-comments.b8f62345.svg"); }
+  width: 18px;
+  height: 21px;
+  margin-right: 5px; }
+
+.count-text {
+  display: block; }
 
 .issue-sub {
   margin-top: 5px;

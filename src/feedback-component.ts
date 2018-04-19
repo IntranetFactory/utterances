@@ -34,8 +34,8 @@ export class FeedbackComponent {
       <div id="newIssueFormContainer"></div>
       <div class="tabnav">
         <nav class="tabnav-tabs">
-          <a id="openedTab" link="#" class="tabnav-tab selected" tabname="${openIssuesTabName}">Open</a>
-          <a id="closedTab" link="#" class="tabnav-tab" tabname="${closedIssuesTabName}">Closed</a>
+          <a id="openedTab" link="#" class="tabnav-tab selected" tabname="${openIssuesTabName}"><span id="openTabIssueCount" class="text-bold"></span> Open</a>
+          <a id="closedTab" link="#" class="tabnav-tab" tabname="${closedIssuesTabName}"><span id="closedTabIssueCount" class="text-bold"></span> Closed</a>
         </nav>
       </div>
       <div id="issuesBox" class="Box issues-box">
@@ -93,6 +93,8 @@ export class FeedbackComponent {
     this.closedTab.addEventListener('click', this.handleTabClick.bind(this));
 
     loadIssuesByType(page.issueTerm as string, "open").then((issues: Issue[] | null) => {
+      const issueCountElt = openedTab.querySelector('#openTabIssueCount');
+      issueCountElt!.textContent = `${issues!.length}`;
       this.setIssues(issues);
     });
 
@@ -123,6 +125,8 @@ export class FeedbackComponent {
 
     let tabName = target.getAttribute('tabname') as string;
     loadIssuesByType(page.issueTerm as string, tabName).then((issues: Issue[] | null) => {
+      const issueCountElt = target.querySelector(`#${tabName}TabIssueCount`);
+      issueCountElt!.textContent = `${issues!.length}`;
       this.setIssues(issues);
     });
   }
