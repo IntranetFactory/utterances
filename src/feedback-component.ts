@@ -94,7 +94,8 @@ export class FeedbackComponent {
 
     loadIssuesByType(page.issueTerm as string, "open").then((issues: Issue[] | null) => {
       const issueCountElt = openedTab.querySelector('#openTabIssueCount');
-      issueCountElt!.textContent = `${issues!.length}`;
+      const count = issues ? issues.length : 0;
+      issueCountElt!.textContent = `${count}`;
       this.setIssues(issues);
     });
 
@@ -126,7 +127,8 @@ export class FeedbackComponent {
     let tabName = target.getAttribute('tabname') as string;
     loadIssuesByType(page.issueTerm as string, tabName).then((issues: Issue[] | null) => {
       const issueCountElt = target.querySelector(`#${tabName}TabIssueCount`);
-      issueCountElt!.textContent = `${issues!.length}`;
+      const count = issues ? issues.length : 0;
+      issueCountElt!.textContent = `${count}`;
       this.setIssues(issues);
     });
   }
@@ -139,7 +141,10 @@ export class FeedbackComponent {
 
     if (!issues) {
       // display info message
-      issuesBox.textContent = `No issues`;
+      const noIssuesElt = document.createElement('div');
+      noIssuesElt.classList.add('no-issues');
+      noIssuesElt.textContent = `No issues`;
+      issuesBox.appendChild(noIssuesElt);
       publishResize();
       return;
     }

@@ -4201,6 +4201,9 @@ a.tabnav-extra:hover {
 .text-bold {
   font-weight: 600; }
 
+.no-issues {
+  padding: 10px; }
+
 .spinner {
   margin: 32px auto;
   width: 70px;
