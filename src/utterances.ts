@@ -1,21 +1,23 @@
 import { pageAttributes as page } from './page-attributes';
 import {
   User,
+  Issue,
   setRepoContext,
   loadUser,
+  loadIssuesByType
 } from './github';
 import { FeedbackComponent } from './feedback-component';
 import { setHostOrigin, publishResize } from './bus';
 
 setRepoContext(page);
 
-Promise.all([loadUser()])
-  .then(([user]) => bootstrap(user));
+Promise.all([loadUser(), loadIssuesByType(page.issueTerm as string, "open"), loadIssuesByType(page.issueTerm as string, "closed")])
+  .then(([user, openIssues, closedIssues]) => bootstrap(user, openIssues, closedIssues));
 
-function bootstrap(user: User | null) {
+function bootstrap(user: User | null, openIssues: Issue[] | null, closedIssues: Issue[] | null) {
   setHostOrigin(page.origin);
 
-  const feedback = new FeedbackComponent(user);
+  const feedback = new FeedbackComponent(user, openIssues, closedIssues);
   document.body.appendChild(feedback.element);
   publishResize();
 }

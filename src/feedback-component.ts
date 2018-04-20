@@ -23,7 +23,9 @@ export class FeedbackComponent {
   private issueComponents: IssueComponent[] = [];
 
   constructor(
-    private _user: User | null
+    private _user: User | null,
+    private openIssues: Issue[] | null,
+    private closedIssues: Issue[] | null
   ) {
     let openIssuesTabName: string = 'open';
     let closedIssuesTabName: string = 'closed';
@@ -33,7 +35,7 @@ export class FeedbackComponent {
     this.element.innerHTML = `
       <div id="newIssueFormContainer"></div>
       <div class="tabnav">
-        <nav class="tabnav-tabs">
+        <nav id="tabsContainer" class="tabnav-tabs">
           <a id="openedTab" link="#" class="tabnav-tab selected" tabname="${openIssuesTabName}"><span id="openTabIssueCount" class="text-bold"></span> Open</a>
           <a id="closedTab" link="#" class="tabnav-tab" tabname="${closedIssuesTabName}"><span id="closedTabIssueCount" class="text-bold"></span> Closed</a>
         </nav>
@@ -47,7 +49,9 @@ export class FeedbackComponent {
       </div>
     `;
 
-    const setIssuesFn = this.setIssues.bind(this);
+    this.updateTabVisibility();
+
+    const self = this;
 
     const newIssueSubmit = (title: string, description: string): Promise<void> => {
       if (this._user) {
@@ -66,7 +70,9 @@ export class FeedbackComponent {
           closedTab.classList.remove('selected');
           openedTab.classList.add('selected');
           loadIssuesByType(page.issueTerm as string, "open").then(issues => {
-            setIssuesFn(issues);
+            self.openIssues = issues;
+            self.updateTabVisibility();
+            self.setIssues(issues);
           });
         });
       }
@@ -92,12 +98,13 @@ export class FeedbackComponent {
     this.openedTab.addEventListener('click', this.handleTabClick.bind(this));
     this.closedTab.addEventListener('click', this.handleTabClick.bind(this));
 
-    loadIssuesByType(page.issueTerm as string, "open").then((issues: Issue[] | null) => {
-      const issueCountElt = openedTab.querySelector('#openTabIssueCount');
-      const count = issues ? issues.length : 0;
-      issueCountElt!.textContent = `${count}`;
-      this.setIssues(issues);
-    });
+    const openCount = openIssues ? openIssues.length : 0;
+    const closedCount = closedIssues ? closedIssues.length : 0;
+
+    const issueCountElt = openedTab.querySelector('#openTabIssueCount');
+    issueCountElt!.textContent = `${openCount}`;
+    const closedIssueCountElt = closedTab.querySelector('#closedTabIssueCount');
+    closedIssueCountElt!.textContent = `${closedCount}`;
 
     this.issuesBox.addEventListener('user-changed', event => {
       let user: User = event.detail as User;
@@ -109,6 +116,31 @@ export class FeedbackComponent {
       });
 
     });
+
+    this.setIssues(openIssues);
+  }
+
+  private updateTabVisibility(): void {
+    var openCount = this.openIssues ? this.openIssues.length : 0;
+    var closedCount = this.closedIssues ? this.closedIssues.length : 0;
+
+    const hideAll = !openCount && !closedCount;
+    const hideTabs = openCount > 0 && !closedCount;
+
+    const tabsContainer = this.element.querySelector('#tabsContainer') as HTMLElement;
+    const issuesBox = this.element.querySelector('#issuesBox') as HTMLElement;
+
+    if (hideAll || hideTabs) {
+      tabsContainer!.setAttribute('hidden', '');
+    } else {
+      tabsContainer!.removeAttribute('hidden');
+    }
+
+    if (hideAll) {
+      issuesBox!.setAttribute('hidden', '');
+    } else {
+      issuesBox!.removeAttribute('hidden');
+    }
   }
 
   private handleTabClick(event: MouseEvent): void {
@@ -129,6 +161,15 @@ export class FeedbackComponent {
       const issueCountElt = target.querySelector(`#${tabName}TabIssueCount`);
       const count = issues ? issues.length : 0;
       issueCountElt!.textContent = `${count}`;
+
+      if (tabName === "open") {
+        this.openIssues = issues;
+
+      } else {
+        this.closedIssues = issues;
+      }
+
+      this.updateTabVisibility();
       this.setIssues(issues);
     });
   }
@@ -158,3 +199,4 @@ export class FeedbackComponent {
     publishResize();
   }
 }
+
