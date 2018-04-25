@@ -60,7 +60,8 @@ export class FeedbackComponent {
           title,
           page.url,
           title,
-          page.description
+          page.description,
+          this._user
         ).then(newIssue => {
           return postComment(newIssue.number, description);
         });

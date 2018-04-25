@@ -205,12 +205,15 @@ export function loadUser(): Promise<User | null> {
     });
 }
 
-export function createIssue(issueTerm: string, documentUrl: string, title: string, description: string) {
+export function createIssue(issueTerm: string, documentUrl: string, title: string, description: string, user: User) {
   const request = new Request(`${page.apiEndpoint}/repos/${owner}/${repo}/issues`, {
     method: 'POST',
     body: JSON.stringify({
       title: issueTerm,
-      body: `# ${title}\n\n${description}\n\n[${documentUrl}](${documentUrl})`
+      body: `# ${title}\n\n${description}\n\n[${documentUrl}](${documentUrl})`,
+      assignees: [
+        user.login
+      ]
     })
   });
   request.headers.set('Accept', GITHUB_ENCODING__REACTIONS_PREVIEW);

@@ -93,7 +93,8 @@ export class IssueComponent {
             page.issueTerm as string,
             page.url,
             page.title,
-            page.description
+            page.description,
+            user
           ).then(newIssue => {
             issue = newIssue;
             return postComment(issue.number, markdown);
