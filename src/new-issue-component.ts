@@ -43,7 +43,7 @@ export class NewIssueComponent {
              href="https://guides.github.com/features/mastering-markdown/">
             Styling with Markdown is supported
           </a>
-          <button class="btn btn-primary" type="submit">Comment</button>
+          <button class="btn btn-primary" type="submit">Submit Comment</button>
         </footer>
       </form>`;
 
@@ -62,7 +62,7 @@ export class NewIssueComponent {
 
   public setUser(user: User | null) {
     this.user = user;
-    this.submitButton.textContent = user ? 'Comment' : 'Sign in to comment';
+    this.submitButton.textContent = user ? 'Submit Comment' : 'Sign in to comment';
     this.submitButton.disabled = !!user;
 
     if (user) {
