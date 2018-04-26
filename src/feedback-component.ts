@@ -12,6 +12,7 @@ import {
 } from './github';
 import { NewIssueComponent } from './new-issue-component';
 import { IssueComponent } from './issue-component';
+import { CommentComponent } from './comment-component';
 
 export class FeedbackComponent {
   public readonly element: HTMLElement;
@@ -30,12 +31,20 @@ export class FeedbackComponent {
     let openIssuesTabName: string = 'open';
     let closedIssuesTabName: string = 'closed';
 
+    if (openIssues == null) {
+      this.openIssues = [];
+    }
+
+    if (closedIssues == null) {
+      this.closedIssues = [];
+    }
+
     this.element = document.createElement('div');
     this.element.classList.add('feedback-container');
     this.element.innerHTML = `
       <div id="newIssueFormContainer"></div>
-      <div class="tabnav">
-        <nav id="tabsContainer" class="tabnav-tabs">
+      <div id="tabsContainer" class="tabnav">
+        <nav class="tabnav-tabs">
           <a id="openedTab" link="#" class="tabnav-tab selected" tabname="${openIssuesTabName}"><span id="openTabIssueCount" class="text-bold"></span> Open</a>
           <a id="closedTab" link="#" class="tabnav-tab" tabname="${closedIssuesTabName}"><span id="closedTabIssueCount" class="text-bold"></span> Closed</a>
         </nav>
@@ -52,7 +61,7 @@ export class FeedbackComponent {
     this.updateTabVisibility();
 
     const self = this;
-
+    let lastBoxTop = 0;
     const newIssueSubmit = (title: string, description: string): Promise<void> => {
       if (this._user) {
         let commentPromise: Promise<IssueComment>;
@@ -63,17 +72,43 @@ export class FeedbackComponent {
           page.description,
           this._user
         ).then(newIssue => {
+
+          closedTab.classList.remove('selected');
+          openedTab.classList.add('selected');
+
+          self.openIssues!.push(newIssue);
+          self.updateTabVisibility();
+          self.setIssues(self.openIssues);
+
+          const issueCountElt = self.element.querySelector(`#openTabIssueCount`);
+          const count = self.openIssues ? self.openIssues.length : 0;
+          issueCountElt!.textContent = `${count}`;
+
+          const issueBoxes = self.issuesBox.children;
+          const lastBox = issueBoxes[issueBoxes.length - 1];
+          const arrow = lastBox.querySelector('.arrow-right') as HTMLElement;
+          const clickEvent = document.createEvent('MouseEvent');
+          clickEvent.initEvent('click', false, true);
+          arrow.dispatchEvent(clickEvent);
+
+          lastBoxTop = lastBox.getBoundingClientRect().top;
+
           return postComment(newIssue.number, description);
         });
 
-        return commentPromise.then(() => {
+        return commentPromise.then((comment: IssueComment) => {
+          const commentComponent = new CommentComponent(comment, this._user!.login);
+          const issueBoxes = self.issuesBox.children;
+          const lastBox = issueBoxes[issueBoxes.length - 1];
+          const marker = lastBox!.firstElementChild!.nextElementSibling!.lastChild as Node;
+          marker!.parentElement!.insertBefore(commentComponent.element, marker);
+
           this.newIssueComponent.clear();
-          closedTab.classList.remove('selected');
-          openedTab.classList.add('selected');
-          loadIssuesByType(page.issueTerm as string, "open").then(issues => {
-            self.openIssues = issues;
-            self.updateTabVisibility();
-            self.setIssues(issues);
+          this.newIssueComponent.showThanksForFeedback();
+          publishResize();
+          window.top.scrollTo({
+            top: lastBoxTop,
+            behavior: "smooth"
           });
         });
       }

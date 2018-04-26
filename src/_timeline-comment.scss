@@ -30,6 +30,15 @@
     border-bottom: $border;
   }
 
+  .feedback-thanks {
+    flex-grow: 1;
+    flex-basis: 0;
+    text-align: center;
+    border: none !important;
+    justify-content: center !important;
+    cursor: pointer;
+  }
+
   .new-comment-header {
     padding: $spacer-2 $spacer-2 0 $spacer-2;
     background-color: $bg-gray;

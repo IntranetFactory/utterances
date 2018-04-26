@@ -16,6 +16,9 @@ export class NewIssueComponent {
   private textarea: HTMLTextAreaElement;
   private submitButton: HTMLButtonElement;
 
+  private newIssueTimelineComment: HTMLElement;
+  private newIssueThanksForFeedback: HTMLElement;
+
   private submitting = false;
 
   constructor(
@@ -23,41 +26,58 @@ export class NewIssueComponent {
     private readonly submit: (titie: string, description: string) => Promise<void>
   ) {
     this.element = document.createElement('article');
-    this.element.classList.add('timeline-comment');
     this.element.addEventListener('mousemove', publishResize); // todo: measure, throttle
 
     this.element.innerHTML = `
-      <a class="avatar" target="_blank">
-        <img height="44" width="44">
-      </a>
-      <form class="comment" accept-charset="UTF-8" action="javascript:">
-        <header class="comment-header">
-          <strong>Submit your feedback</strong>
-        </header>
-        <div class="comment-body">
-          <input class="form-control input-block" placeholder="Title"/>
-          <textarea placeholder="Leave your comment" aria-label="comment"></textarea>
-        </div>
-        <footer class="comment-footer">
-          <a class="text-link markdown-info" tabindex="-1" target="_blank"
-             href="https://guides.github.com/features/mastering-markdown/">
-            Styling with Markdown is supported
-          </a>
-          <button class="btn btn-primary" type="submit">Submit Comment</button>
-        </footer>
-      </form>`;
+      <article id="newIssueTimelineComment" class="timeline-comment">
+        <a class="avatar" target="_blank">
+          <img height="44" width="44">
+        </a>
+        <form class="comment" accept-charset="UTF-8" action="javascript:">
+          <header class="comment-header">
+            <strong>Submit your feedback</strong>
+          </header>
+          <div class="comment-body">
+            <input class="form-control input-block" placeholder="Title"/>
+            <textarea placeholder="Leave your comment" aria-label="comment"></textarea>
+          </div>
+          <footer class="comment-footer">
+            <a class="text-link markdown-info" tabindex="-1" target="_blank"
+              href="https://guides.github.com/features/mastering-markdown/">
+              Styling with Markdown is supported
+            </a>
+            <button class="btn btn-primary" type="submit">Submit Comment</button>
+          </footer>
+        </form>
+      </article>
+      <article id="newIssueThanksForFeedback" class="timeline-comment" hidden>
+        <header class="comment-header feedback-thanks"><strong>Thanks for submitting your feedback. Click this message to submit more.</strong></header>
+      </article>`;
 
-    this.avatarAnchor = this.element.firstElementChild as HTMLAnchorElement;
+    this.avatarAnchor = this.element.querySelector('.avatar') as HTMLAnchorElement;
     this.avatar = this.avatarAnchor.firstElementChild as HTMLImageElement;
     this.form = this.avatarAnchor.nextElementSibling as HTMLFormElement;
     this.input = this.form!.firstElementChild!.nextElementSibling!.firstElementChild as HTMLInputElement;
     this.textarea = this.input!.nextElementSibling as HTMLTextAreaElement;
     this.submitButton = this.form!.lastElementChild!.lastElementChild as HTMLButtonElement;
 
+    this.newIssueTimelineComment = this.element.querySelector('#newIssueTimelineComment') as HTMLElement;
+    this.newIssueThanksForFeedback = this.element.querySelector('#newIssueThanksForFeedback') as HTMLElement;
+
+    this.newIssueThanksForFeedback.addEventListener('click', () => {
+      this.newIssueThanksForFeedback.setAttribute('hidden', '');
+      this.newIssueTimelineComment.removeAttribute('hidden');
+    });
+
     this.setUser(user);
 
     this.textarea.addEventListener('input', this.handleInput);
     this.form.addEventListener('submit', this.handleSubmit);
+  }
+
+  public showThanksForFeedback() {
+    this.newIssueThanksForFeedback.removeAttribute('hidden');
+    this.newIssueTimelineComment.setAttribute('hidden', '');
   }
 
   public setUser(user: User | null) {
