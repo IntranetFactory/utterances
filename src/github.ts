@@ -172,8 +172,9 @@ export function loadIssueByNumber(issueNumber: number) {
   });
 }
 
-function commentsRequest(issueNumber: number, page: number) {
-  const url = `repos/${owner}/${repo}/issues/${issueNumber}/comments?page=${page}&per_page=${PAGE_SIZE}`;
+function commentsRequest(issueNumber: number, page: number, pageSize?: number) {
+  var page_size = pageSize ? pageSize : PAGE_SIZE;
+  const url = `repos/${owner}/${repo}/issues/${issueNumber}/comments?page=${page}&per_page=${page_size}`;
   const request = githubRequest(url);
   const accept = `${GITHUB_ENCODING__HTML_JSON},${GITHUB_ENCODING__REACTIONS_PREVIEW}`;
   request.headers.set('Accept', accept);
@@ -189,6 +190,16 @@ export function loadCommentsPage(issueNumber: number, page: number) {
     const nextPage = readRelNext(response);
     return response.json()
       .then<CommentsPage>((items: IssueComment[]) => ({ items, nextPage }));
+  });
+}
+
+export function loadIssueCreator(issueNumber: number) {
+  const request = commentsRequest(issueNumber, 1, 1);
+  return githubFetch(request).then(response => {
+    if (!response.ok) {
+      throw new Error('Error fetching issue creator.');
+    }
+    return response.json().then<User | null>((items: IssueComment[]) => items.length ? items[0].user : null);
   });
 }
 

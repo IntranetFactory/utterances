@@ -1,7 +1,7 @@
 import { pageAttributes as page } from './page-attributes';
 import { publishResize } from './bus';
 import {
-  User, Issue, IssueComment, createIssue, postComment, loadUser, loadCommentsPage
+  User, Issue, IssueComment, createIssue, postComment, loadUser, loadCommentsPage, loadIssueCreator
 } from './github'
 import { login } from './oauth';
 import { TimelineComponent } from './timeline-component';
@@ -122,8 +122,21 @@ export class IssueComponent {
 
     const issueSub = document.createElement('div');
     issueSub.classList.add('issue-sub');
-    issueSub.innerHTML = `<a target="_blank" href="${issue.html_url}">#${issue.number}</a> opened ${ago} by <a target="_blank" href="${issue.user.html_url}">${issue.user.login}</a>`;
+    issueSub.innerHTML = `
+      <div class="spinner spinner-size-21">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>`;
     this.element.appendChild(issueSub);
+
+    loadIssueCreator(issue.number).then(user => {
+      if (user) {
+        issueSub.innerHTML = `<a target="_blank" href="${issue.html_url}">#${issue.number}</a> opened ${ago} by <a target="_blank" href="${user.html_url}">${user.login}</a>`;
+      } else {
+        issueSub.innerHTML = `<a target="_blank" href="${issue.html_url}">#${issue.number}</a> opened ${ago} by <a target="_blank" href="${issue.user.html_url}">${issue.user.login}</a>`;
+      }
+    });
   }
 
   setUser(user: User) {

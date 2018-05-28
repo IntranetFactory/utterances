@@ -76,3 +76,15 @@ $hover-text-color: #0366d6;
   margin-top: 5px;
   padding-left: 21px;
 }
+
+.spinner-size-21 {
+  display: block;
+  height: 21px;
+  margin: 0;
+}
+
+.spinner.spinner-size-21 > div {
+  width: 12px;
+  height: 12px;
+  background-color: $hover-text-color;
+}
