@@ -7,7 +7,7 @@
 // orig method which is the require for previous bundles
 
 // eslint-disable-next-line no-global-assign
-parcelRequire = (function (modules, cache, entry) {
+parcelRequire = (function (modules, cache, entry, globalName) {
   // Save the require from previous bundle to this closure if any
   var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
   var nodeRequire = typeof require === 'function' && require;
@@ -42,10 +42,11 @@ parcelRequire = (function (modules, cache, entry) {
       }
 
       localRequire.resolve = resolve;
+      localRequire.cache = {};
 
       var module = cache[name] = new newRequire.Module(name);
 
-      modules[name][0].call(module.exports, localRequire, module, module.exports);
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
     }
 
     return cache[name].exports;
@@ -70,55 +71,101 @@ parcelRequire = (function (modules, cache, entry) {
   newRequire.modules = modules;
   newRequire.cache = cache;
   newRequire.parent = previousRequire;
+  newRequire.register = function (id, exports) {
+    modules[id] = [function (require, module) {
+      module.exports = exports;
+    }, {}];
+  };
 
   for (var i = 0; i < entry.length; i++) {
     newRequire(entry[i]);
   }
 
+  if (entry.length) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(entry[entry.length - 1]);
+
+    // CommonJS
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module.exports = mainExports;
+
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+     define(function () {
+       return mainExports;
+     });
+
+    // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+
   // Override the current require with this new one
   return newRequire;
-})({48:[function(require,module,exports) {
+})({"ieWq":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 function deparam(query) {
-    var match;
-    var plus = /\+/g;
-    var search = /([^&=]+)=?([^&]*)/g;
-    var decode = function decode(s) {
-        return decodeURIComponent(s.replace(plus, ' '));
-    };
-    var params = {};
-    while (match = search.exec(query)) {
-        params[decode(match[1])] = decode(match[2]);
-    }
-    return params;
+  var match;
+  var plus = /\+/g;
+  var search = /([^&=]+)=?([^&]*)/g;
+
+  var decode = function decode(s) {
+    return decodeURIComponent(s.replace(plus, ' '));
+  };
+
+  var params = {};
+
+  while (match = search.exec(query)) {
+    params[decode(match[1])] = decode(match[2]);
+  }
+
+  return params;
 }
+
 exports.deparam = deparam;
+
 function param(obj) {
-    var parts = [];
-    for (var name in obj) {
-        if (obj.hasOwnProperty(name)) {
-            parts.push(encodeURIComponent(name) + "=" + encodeURIComponent(obj[name]));
-        }
+  var parts = [];
+
+  for (var name in obj) {
+    if (obj.hasOwnProperty(name)) {
+      parts.push(encodeURIComponent(name) + "=" + encodeURIComponent(obj[name]));
     }
-    return parts.join('&');
+  }
+
+  return parts.join('&');
 }
+
 exports.param = param;
-},{}],20:[function(require,module,exports) {
+},{}],"D53L":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var deparam_1 = require("./deparam");
+
 var script = document.querySelector('#GitHubCommentScript');
+
 if (!script) {
-    throw Error("GitHubCommentScript configuration element is required");
+  throw Error("GitHubCommentScript configuration element is required");
 }
+
 var attrs = {};
+
 for (var i = 0; i < script.attributes.length; i++) {
-    var attribute = script.attributes.item(i);
-    attrs[attribute.name] = attribute.value;
+  var attribute = script.attributes.item(i);
+  attrs[attribute.name] = attribute.value;
 }
+
 attrs.url = location.href;
 attrs.origin = location.origin;
 attrs.pathname = location.pathname.substr(1).replace(/\.\w+$/, '');
@@ -131,10 +178,11 @@ script.insertAdjacentHTML('afterend', "<div class=\"utterances\">\n    <iframe c
 var container = script.nextElementSibling;
 script.parentElement.removeChild(script);
 addEventListener('message', function (event) {
-    var data = event.data;
-    if (data && data.type === 'resize' && data.height) {
-        container.style.height = data.height + "px";
-    }
+  var data = event.data;
+
+  if (data && data.type === 'resize' && data.height) {
+    container.style.height = data.height + "px";
+  }
 });
-},{"./deparam":48}]},{},[20])
+},{"./deparam":"ieWq"}]},{},["D53L"], null)
 //# sourceMappingURL=client.map
